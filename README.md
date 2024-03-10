@@ -7,11 +7,12 @@ Welcome to MLOps-TripleP, a Python-based project designed to predict solar panel
 ## Features
 This project is made for Spring 2024 MLOps Lecture. 
 
-
+The goal of this project is to learn how to utilize corretly the tools that are typically used in the industry. Every part of the project that we were asked to make is (and will) be compiled in the following table.
 | Subject                         | Link                                  |
 |---------------------------------|---------------------------------------|
-| Exploratory Data Analysis (EDA) | [EDA](data-exploration/EDA.md) |
-| Data Modelling | [Models](data-modelling/MODELS.md) |
+| Handwritten Work                | [PDF's](pdf/PDF.md)                   |
+| Exploratory Data Analysis (EDA) | [EDA](data-exploration/EDA.md)        |
+| Data Modelling                  | [Models](data-modelling/MODELS.md)    |
 
 
 ## Team
