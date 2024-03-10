@@ -153,7 +153,7 @@ Here are the interesting (anti-)correlations:
 - CD - SWD: The presence of low clouds can reduce the amount of solar radiation reaching the ground, hence the negative correlation with SWD.
 
 Here is the correlation matrix: 
-![image](pl_9).png
+![image](pl_9.png)
 ## 9. Daily Production Analysis
 
 Daily analysis demonstrated a strong correlation between solar irradiance and energy production, emphasizing the influence of sunlight on power generation and the usefulness of this data to predict the power produced by the pannels.
