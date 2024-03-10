@@ -11,6 +11,7 @@ This project is made for Spring 2024 MLOps Lecture.
 | Subject                         | Link                                  |
 |---------------------------------|---------------------------------------|
 | Exploratory Data Analysis (EDA) | [EDA](data-exploration/EDA.md) |
+| Data Modelling | [Models](data-modelling/MODELS.md) |
 
 
 ## Team
