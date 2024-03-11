@@ -24,8 +24,12 @@ In the case of the Scikit-Learn, we have tested the folowing models:
 - Gradient Boosting
 - Support vector machines (SVMs)
 
-Among all of these, the wort models are the SVMs and the Linear regression. While the best one seams to be the ...
+Among all of these, the wort models are the SVMs and the Linear regression. While the best one seams to be the Random Forests. The current performance of the models for each of the solar panels is reported in the following table:
 
+| Solar Panel | Power 1 | Power 2 | Power 3 | Power 4 | Power 5 | Power 6 | Power 7 | Power 8 |
+|-------------|---------|---------|---------|---------|---------|---------|---------|---------|
+| Model       | RF      | RF      | RF      | RF      | RF      | RF      | RF      | RF      |
+| MSE         | $3.78\times10^7$ | $3.78\times10^7$ | $3.63\times10^7$ | $3.27\times10^7$ | $5.40\times10^6$ | $5.46\times10^6$ | $5.57\times10^6$ | $5.47\times10^6$ |
 
 
 ## 2. Neural Network
