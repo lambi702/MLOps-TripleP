@@ -37,14 +37,14 @@ Boxplots of power generation across different power plants indicated a significa
 - we can see that some times, the sensor (or computation) malfunctions and a 0 is written in the file
 - we can observe that more energy seems to be produced during summer as the steep is greater
 
-![image](pl_2)
+![image](pl_2.png)
 
 
 ## 4. Evolution of Solar Irradiance
 
 - the top solar irradiance values will be in the summer, explicitely at the summur solstice, when the day is the longest. The top solar irradiace curve seems to be smoother and with lower variance.
 
-![image](pl_3)
+![image](pl_3.png)
 
 ## 5. Weather Conditions Impact
 
@@ -66,18 +66,18 @@ Rainfall or precipitation shows that belgium is a pretty rainy contry with some 
 **Wind Speed (WS10m):**
 Wind speed, measured 10 meters above the ground, indicates that the windiest months are March and November, with speeds reaching up to 4.5 m/s. A gradual decrease is observed during the mid-year months, indicating calmer conditions.
 
-![image](pl_4)
+![image](pl_4.png)
 
 ## 6. Outlier Detection
 
 Outlier analysis using z-scores and the Mahalanobis distance helped identify and handle anomalous data points, ensuring a cleaner dataset for modeling and the correction of the weird behaviour of Panel 8 and the Energy columns. The other outliers were ignored as attributed to extreme weather conditions.
 Here can be seen the z-score for each of the variables:
 
-![image](pl_5)
+![image](pl_5.png)
 
 And after cleaning:
 
-![image](pl_6)
+![image](pl_6.png)
 
 ## 7. Descriptive Statistics
 
@@ -153,12 +153,12 @@ Here are the interesting (anti-)correlations:
 - CD - SWD: The presence of low clouds can reduce the amount of solar radiation reaching the ground, hence the negative correlation with SWD.
 
 Here is the correlation matrix: 
-![image](pl_9)
+![image](pl_9.png)
 ## 9. Daily Production Analysis
 
 Daily analysis demonstrated a strong correlation between solar irradiance and energy production, emphasizing the influence of sunlight on power generation and the usefulness of this data to predict the power produced by the pannels.
 
-![image](pl_10)
+![image](pl_10.png)
 
 With the plot and the correlation between the two variable in mind, we can see that the daily production is highly correlated with the energy produced that day. The two distribution look alike (When normalized) and it looks like one could be used to try and predict the other.
 
@@ -189,5 +189,5 @@ Monthly analysis highlighted the seasonal impact on power production, with signi
 - **Consistency at Night**: Minimal data spread during night and early morning hours (0 to 6 am) and late evening hours after sunset suggests little to no solar power production during these times throughout the year.
 - **Variability at Midday**: High variability in midday power production, reflected in error bars, suggests potential weather influences causing fluctuations, observed notably in months like April and May.
 
-![image](pl_12)
+![image](pl_12.png)
 
