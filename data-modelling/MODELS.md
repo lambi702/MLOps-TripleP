@@ -51,3 +51,17 @@ The output layer features two neurons, representing the mean (mu) and log varian
 
 
 The second neural network exhibits a loss oscillating between 1.8 and 2, while the first network generally fluctuates between 1.8 and 1.9, with one notable exception.
+
+## 3. Randomized Search to Optimize Hyperparameters of the Random Forest Model
+
+We have employed a randomized search to optimize the hyperparameters of the Random Forest model.
+Here are the results of the search:
+
+| Parameter          | Value |
+|--------------------|-------|
+| n_estimators       | 242   |
+| max_features       | 'log2'|
+| max_depth          | 74    |
+| min_samples_split  | 6     |
+| min_samples_leaf   | 1     |
+| bootstrap          | False |
