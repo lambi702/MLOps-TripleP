@@ -12,17 +12,25 @@ app = Dash(__name__)
 
 
 # call the model to get the predictions
-pred, date = get_predictions()
+pred, date, swd, swdtop = get_predictions()
 
+today = datetime.now()
 # data
 df = pd.DataFrame({
     'predictions': pred,
     'days': date,
+    'SWD': swd,
+    'SWDtop': swdtop
 })
 
-fig = px.line(df, x='days', y='predictions')
+# limit the data to the next 7 days after today
+df = df[df['days'] >= today]
+df = df[df['days'] <= today + pd.Timedelta(days=7)]
 
-today = datetime.now()
+
+fig = px.line(df, x='days', y='predictions', labels={'days':'Date', 'predictions':'Predicted electricity generation (Wh)'})
+fig2 = px.line(df, x='days', y='SWD', labels={'days':'Date', 'SWD':'Horizontal Irradiance (W/m²)'})
+fig3 = px.line(df, x='days', y='SWDtop',  labels={'days':'Date', 'SWDtop':'Irradiance top atmosphere (W/m²)'})
 
 app.layout = html.Div([
     html.H1(children='Prediction of Parking Area Solar Panel Electricity Generation at the University of Liège'
@@ -42,6 +50,17 @@ app.layout = html.Div([
 
     # Graph of the meteorological data
     html.H2('Meteorological data:'),
+    html.H3('GlobalHorizontal irradiance', style={'textAlign':'center'}),
+    dcc.Graph(
+            id='example-graph2',
+            figure=fig2
+        ),
+
+    html.H3('Total Solar Irradiance at the top of the atmosphere', style={'textAlign':'center'}),
+    dcc.Graph(
+            id='example-graph2',
+            figure=fig3
+        ),
 
 ])
 

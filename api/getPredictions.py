@@ -3,10 +3,18 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
 import pandas as pd
 import os
+import pickle
 
 # MODEL ------
 
 def define_data(df):
+    """
+    Function to define the data and to clean it
+
+    Arguments:
+        - df: dataframe containing the data
+    """
+
     
     df = df.rename(columns={'Unnamed: 0': 'Timestamp'})
     df['Timestamp'] = pd.to_datetime(df['Timestamp'])
@@ -21,6 +29,13 @@ def define_data(df):
     return df
 
 def define_features_target(df):
+    """
+    Function to define the features and target of the model
+
+    Arguments:
+        - df: dataframe containing the data
+    """
+
     target = df.drop(columns=df.columns[1:])
     features = df.drop(columns=['Power_Total'])
     
@@ -31,6 +46,12 @@ def define_features_target(df):
 
 
 def define_model(df):
+    """
+    Function to define the model
+
+    Arguments:
+        - df: dataframe containing the data
+    """
 
     rf = RandomForestRegressor(bootstrap=False, 
                                max_depth=74, 
@@ -41,12 +62,28 @@ def define_model(df):
     features_train, target_train, features_val = define_features_target(df)
     
     rf.fit(features_train, target_train)
-    # target_pred_train = rf.predict(features_train)
-    # target_pred_val = rf.predict(features_val)
 
-    return rf
+    # Save the model
+    folder_name = "saved-models"
+    if not os.path.exists(folder_name):
+        os.makedirs(folder_name)
+
+    model_path = os.path.join(folder_name, "random_forest_model.pkl")
+
+    with open(model_path, 'wb') as file:
+        print("Model saved")
+        pickle.dump(rf, file)
+
 
 def convert_date(row):
+    """
+    Function to convert the date from the csv file to a datetime object
+
+    Arguments:
+        - row: row of the dataframe
+    """
+
+
     month, day, hour = int(row['Month']), int(row['Day']), row['Hour']
     year = datetime.now().year  # Utilisation de l'année actuelle
 
@@ -56,34 +93,52 @@ def convert_date(row):
     date_string = f"{year}-{month}-{day} {hour_int}:{int(minute_dec)}"
     return datetime.strptime(date_string, '%Y-%m-%d %H:%M')  # Conversion en objet datetime
 
-   
-
 
 def get_predictions():
+    """
+    Function to get the predictions of the model
+
+    """
 
     current_dir = os.path.dirname(os.path.realpath(__file__))
     csv_path = os.path.join(current_dir, "../data/no_outliers.csv")
     df_train = pd.read_csv(csv_path, sep=';', index_col=1)
 
     df_train = define_data(df_train)
-    rf = define_model(df_train)
+    
+    # Load the model if it exists or create it
+    if not os.path.exists('saved-models/random_forest_model.pkl'):
+        rf = define_model(df_train)
+    
+    with open('saved-models/random_forest_model.pkl', 'rb') as file:
+        rf = pickle.load(file)
+        print("Model loaded")
+    
 
     # Load the data and get the predictions
-    csv_path = os.path.join(current_dir, "../data/new_data.csv")
+    csv_path = os.path.join(current_dir, "../data/new_data_no_outliers.csv")
     data = pd.read_csv(csv_path, sep=';')
 
     date = []
     for _, row in data.iterrows():
         date.append(convert_date(row))
 
-    
     predictions = rf.predict(data)
 
-    
-    return predictions, date
+    return predictions, date, data['SWD'], data['SWDtop']
 
 if __name__ == '__main__':
-    predictions = get_predictions()
-    print(predictions)
+    predictions, date, SWD, ST = get_predictions()
+
+    df = pd.DataFrame({
+    'predictions': predictions,
+    'days': date,
+    'SWD': SWD,
+    'ST': ST
+    })
+
+    print(df.head())
+
+
 
 
