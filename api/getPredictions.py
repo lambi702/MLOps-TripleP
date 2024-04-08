@@ -1,9 +1,12 @@
 from datetime import datetime 
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_absolute_error, mean_squared_error
 from sklearn.model_selection import train_test_split
 import pandas as pd
 import os
 import pickle
+import wandb
+from wandb.keras import WandbCallback
 
 # MODEL ------
 
@@ -42,7 +45,7 @@ def define_features_target(df):
     features_train, features_temp, target_train, target_temp = train_test_split(features, target, test_size=0.25, random_state=42)
     features_val, features_test, target_val, target_test = train_test_split(features_temp, target_temp, test_size=0.5, random_state=42)
 
-    return features_train, target_train, features_val    
+    return features_train, target_train, features_val, target_val
 
 
 def define_model(df):
@@ -53,18 +56,37 @@ def define_model(df):
         - df: dataframe containing the data
     """
 
+    # Initialize W&B
+    wandb.init(project="solar-panels-prediction", entity="alixia-birtles")
+
+    # Define hyperparameters to track
+    config = wandb.config
+    config.max_depth = 74
+    config.max_features = 'log2'
+    config.min_samples_split = 6
+    config.n_estimators = 242
+
     # Define the model
     rf = RandomForestRegressor(bootstrap=False, 
-                               max_depth=74, 
-                               max_features='log2',
-                               min_samples_split=6, 
-                               n_estimators=242)
-    
+                               max_depth=config.max_depth, 
+                               max_features=config.max_features,
+                               min_samples_split=config.min_samples_split, 
+                               n_estimators=config.n_estimators)
     # Define the features and target
-    features_train, target_train, features_val = define_features_target(df)
+    features_train, target_train, features_val, target_val = define_features_target(df)
     
     # Fit the model
     rf.fit(features_train, target_train)
+
+    # Evaluate the model
+    target_pred_train = rf.predict(features_train)
+    target_pred_val = rf.predict(features_val)
+
+    # Log the metrics
+    wandb.log({"Train MSE": mean_squared_error(target_train, target_pred_train)})
+    wandb.log({"Validation MSE": mean_squared_error(target_val, target_pred_val)})
+    wandb.log({"Train MAE": mean_absolute_error(target_train, target_pred_train)})
+    wandb.log({"Validation MAE": mean_absolute_error(target_val, target_pred_val)})
 
     # Save the model
     folder_name = "saved-models"

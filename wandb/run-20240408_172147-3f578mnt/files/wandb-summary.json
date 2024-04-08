@@ -1,0 +1,1 @@
+{"Train MSE": 59050890.06161777, "_timestamp": 1712589722.7710564, "_runtime": 15.630894422531128, "_step": 3, "Validation MSE": 995749313.9906161, "Train MAE": 3577.027680923926, "Validation MAE": 14920.269888633515, "_wandb": {"runtime": 15}}
