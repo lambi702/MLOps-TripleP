@@ -53,14 +53,17 @@ def define_model(df):
         - df: dataframe containing the data
     """
 
+    # Define the model
     rf = RandomForestRegressor(bootstrap=False, 
                                max_depth=74, 
                                max_features='log2',
                                min_samples_split=6, 
                                n_estimators=242)
     
+    # Define the features and target
     features_train, target_train, features_val = define_features_target(df)
     
+    # Fit the model
     rf.fit(features_train, target_train)
 
     # Save the model
@@ -77,21 +80,20 @@ def define_model(df):
 
 def convert_date(row):
     """
-    Function to convert the date from the csv file to a datetime object
+    Function to convert the date from the csv file to a datetime object: human readable
 
     Arguments:
         - row: row of the dataframe
     """
 
-
     month, day, hour = int(row['Month']), int(row['Day']), row['Hour']
-    year = datetime.now().year  # Utilisation de l'année actuelle
+    year = datetime.now().year  
 
-    hour_int = int(hour)  # Partie entière des heures
-    minute_dec = (hour % 1) * 60  # Partie décimale des heures, convertie en minutes
+    hour_int = int(hour) 
+    minute_dec = (hour % 1) * 60 
 
     date_string = f"{year}-{month}-{day} {hour_int}:{int(minute_dec)}"
-    return datetime.strptime(date_string, '%Y-%m-%d %H:%M')  # Conversion en objet datetime
+    return datetime.strptime(date_string, '%Y-%m-%d %H:%M')  
 
 
 def get_predictions():
@@ -115,17 +117,23 @@ def get_predictions():
         print("Model loaded")
     
 
-    # Load the data and get the predictions
-    csv_path = os.path.join(current_dir, "../data/new_data_no_outliers.csv")
+    # Load the predicted meteorological data of the next 7 days
+    csv_path = os.path.join(current_dir, "../data/newData_7Days.csv")
     data = pd.read_csv(csv_path, sep=';')
 
+    # Modify the date in the data so that is human readable 
     date = []
     for _, row in data.iterrows():
         date.append(convert_date(row))
 
+    # Get the predictions for the next 7 days
     predictions = rf.predict(data)
 
+
+    # return what we need in the API
     return predictions, date, data['SWD'], data['SWDtop']
+
+
 
 if __name__ == '__main__':
     predictions, date, SWD, ST = get_predictions()
