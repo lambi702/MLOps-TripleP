@@ -1,10 +1,21 @@
 FROM python:3.9-slim
 
-WORKDIR /app
+RUN mkdir -p /api/src /api/data /api/savedModels
 
-COPY requirements.txt requirements.txt
-RUN command -v pip3 && pip3 install --no-cache-dir -r requirements.txt || pip install --no-cache-dir -r requirements.txt
+WORKDIR /api
 
-COPY test.py .
+# Copy the current directory contents into the container at /app
+COPY src/test.py ./src/
+COPY src/getPredictions.py ./src/
+COPY data/  ./data
+COPY savedModels/ ./savedModels
+COPY requirements.txt .
 
-CMD ["python", "test.py"]
+# Install any needed packages specified in requirements.txt
+RUN pip install -r requirements.txt
+
+
+# Define environment variable to tell the container where the app is (i.e. the file to run)
+ENV FLASK_APP=test.py
+
+CMD ["gunicorn", "-b", "0.0.0.0:5000", "src.test:server"]

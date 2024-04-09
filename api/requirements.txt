@@ -1,1 +1,6 @@
-flask
+datetime
+dash
+pandas
+plotly
+scikit-learn
+gunicorn
