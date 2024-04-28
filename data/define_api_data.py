@@ -56,14 +56,14 @@ def get_statistics(df):
     mean = df.mean()
     std = df.std()
 
-    print(f"Mean: {mean}"
+    """print(f"Mean: {mean}"
           f"Std: {std}")
-    
+    """
     max_values = df.max()
     min_values = df.min()
-    print(f"Max values: {max_values}"
+    """print(f"Max values: {max_values}"
           f"Min values: {min_values}")
-    
+    """
     # modify the data based on the mean and std
     np.random.normal(mean, std, size=df.shape)
     data = df + np.random.normal(mean, std, size=df.shape)
@@ -117,41 +117,41 @@ def get_7days_data(df):
 
     # Get the data of the next 7 days
     if days_remaining_in_month >= 7:
-    # If there are at least 7 days remaining in the current month
+        # If there are at least 7 days remaining in the current month
         end_day = day + 7
+
+        newData_7Days = df_new[
+            ((df['Month'] == month) & (df['Day'] >= day) & (df['Day'] <= end_day))
+        ]
 
 
     else:
         # If there are fewer than 7 days remaining in the current month
         end_day = 7 - days_remaining_in_month
+        next_month = (month % 12) + 1
 
         # Adjust for the next month
-        next_month = (month % 12) + 1
         days_in_next_month = days_in_month[next_month]
         while end_day > days_in_next_month:
             end_day -= days_in_next_month
             next_month = (next_month % 12) + 1
             days_in_next_month = days_in_month[next_month]
+        nb_days_current_month = days_in_month[month]
 
-    if days_remaining_in_month >= 7:
         newData_7Days = df_new[
-            ((df['Month'] == month) & (df['Day'] >= day) & (df['Day'] <= end_day))
-        ]
-    else:
-        newData_7Days = df_new[
-            ((df['Month'] == month) & (df['Day'] >= day) & (df['Day'] <= end_day)) |
+            ((df['Month'] == month) & (df['Day'] >= day) & (df['Day'] <= nb_days_current_month)) |
             ((df['Month'] == next_month) & (df['Day'] <= end_day))
         ]
 
     # Drop the column Power_Total as not yet predicted
-    print(newData_7Days.head())
+    #print(newData_7Days.head())
     newData_7Days = newData_7Days.drop(columns=['Power_Total'])
 
     # Save the new data
     current_dir = os.path.dirname(os.path.realpath(__file__))
     new_csv_path = os.path.join(current_dir, "../api/data/newData_7Days.csv")
     newData_7Days.to_csv(new_csv_path, sep=';', index=False)
-    print(f"New data saved to {new_csv_path}")
+    #print(f"New data saved to {new_csv_path}")
 
 
 
@@ -179,7 +179,7 @@ def get_training_data(df):
     current_dir = os.path.dirname(os.path.realpath(__file__))
     new_csv_path = os.path.join(current_dir, "../api/data/newData_forTrain.csv")
     new_training_data.to_csv(new_csv_path, sep=';', index=False)
-    print(f"New data saved to {new_csv_path}")
+    #print(f"New data saved to {new_csv_path}")
 
     
     

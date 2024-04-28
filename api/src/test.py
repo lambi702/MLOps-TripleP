@@ -25,11 +25,12 @@ df = pd.DataFrame({
     'SWDtop': swdtop
 })
 
-
+# Define the figures that are displayed in the app as dashboards
 fig = px.line(df, x='days', y='predictions', labels={'days':'Date', 'predictions':'Predicted electricity generation (W)'})
 fig2 = px.line(df, x='days', y='SWD', labels={'days':'Date', 'SWD':'Horizontal Irradiance (W/m²)'})
 fig3 = px.line(df, x='days', y='SWDtop',  labels={'days':'Date', 'SWDtop':'Irradiance top atmosphere (W/m²)'})
 
+# Define the layout of the app
 app.layout = html.Div([
     html.H1(children='Prediction of Parking Area Solar Panel Electricity Generation at the University of Liège'
             , style={'textAlign':'center'}),
@@ -76,11 +77,14 @@ app.layout = html.Div([
 
 ])
 
+# Callback to update the graph of the predictions
 @app.callback(
     Output('graph_predictions', 'figure'),
     [Input('display-time', 'value')]
 )
 
+
+# Function to update the graph of the predictions
 def update_graph(selected_days):
 
     # Define the date of today at 1h am

@@ -5,6 +5,8 @@ from sklearn.model_selection import train_test_split
 import pandas as pd
 import os
 import pickle
+
+
 #import wandb
 #from wandb.keras import WandbCallback
 
@@ -128,9 +130,12 @@ def get_predictions():
     """
     Function to get the predictions of the model
 
-    """
-
+    """    
+    
     current_dir = os.path.dirname(os.path.realpath(__file__))
+    
+
+    """
     csv_path = os.path.join(current_dir, "../data/no_outliers.csv")
     df_train = pd.read_csv(csv_path, sep=';', index_col=1)
 
@@ -146,11 +151,18 @@ def get_predictions():
     with open(check_model, 'rb') as file:
         rf = pickle.load(file)
         print("Model loaded")
-    
+
+    """
+    # Get model from cloud : 
+    #"URL : https://storage.googleapis.com/mlsd-project/random_forest_model.pkl"
+    rf = pd.read_pickle('https://storage.googleapis.com/mlsd-project/random_forest_model.pkl')
+
 
     # Load the predicted meteorological data of the next 7 days
-    csv_path = os.path.join(current_dir, "../data/newData_7Days.csv")
-    data = pd.read_csv(csv_path, sep=';')
+    # Download the data
+    data = pd.read_csv('https://storage.googleapis.com/mlsd-project/newData_7Days.csv', sep=';')
+    #csv_path = os.path.join(current_dir, "../data/newData_7Days.csv")
+    #data = pd.read_csv(csv_path, sep=';')
 
     # Modify the date in the data so that is human readable 
     date = []
@@ -159,6 +171,12 @@ def get_predictions():
 
     # Get the predictions for the next 7 days
     predictions = rf.predict(data)
+    # Save predictions
+    current_dir = os.path.dirname(os.path.realpath(__file__))
+    new_csv_path = os.path.join(current_dir, "../data/predictions.csv")
+    pd.DataFrame(predictions).to_csv(new_csv_path, sep=';', index=False)
+    
+    
 
 
     # return what we need in the API
