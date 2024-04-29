@@ -2,7 +2,7 @@ name: Daily Update
 
 on:
   schedule:
-    - cron: '29 15 * * *' # Every dayat 1 am
+    - cron: '31 15 * * *' # Every dayat 1 am
   push:
     branches:
       - develop
@@ -14,10 +14,10 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2.4.3
+      uses: actions/checkout@v2
       
     - name: Setup Python
-      uses: actions/setup-python@v2.4.3
+      uses: actions/setup-python@v2
       with:
         python-version: 3.12.2
 
