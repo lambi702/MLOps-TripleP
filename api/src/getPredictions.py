@@ -12,100 +12,100 @@ import pickle
 
 # MODEL ------
 
-def define_data(df):
-    """
-    Function to define the data and to clean it
+# def define_data(df):
+#     """
+#     Function to define the data and to clean it
 
-    Arguments:
-        - df: dataframe containing the data
-    """
+#     Arguments:
+#         - df: dataframe containing the data
+#     """
 
     
-    df = df.rename(columns={'Unnamed: 0': 'Timestamp'})
-    df['Timestamp'] = pd.to_datetime(df['Timestamp'])
+#     df = df.rename(columns={'Unnamed: 0': 'Timestamp'})
+#     df['Timestamp'] = pd.to_datetime(df['Timestamp'])
 
-    df['Month'] = df['Timestamp'].dt.month
-    df['Day'] = df['Timestamp'].dt.day
-    df['Hour'] = df['Timestamp'].dt.hour + df['Timestamp'].dt.minute / 60
+#     df['Month'] = df['Timestamp'].dt.month
+#     df['Day'] = df['Timestamp'].dt.day
+#     df['Hour'] = df['Timestamp'].dt.hour + df['Timestamp'].dt.minute / 60
 
-    df = df.drop(columns=df.columns[:9])
-    df = df.drop(columns=df.columns[1:10])
+#     df = df.drop(columns=df.columns[:9])
+#     df = df.drop(columns=df.columns[1:10])
 
-    return df
+#     return df
 
-def define_features_target(df):
-    """
-    Function to define the features and target of the model
+# def define_features_target(df):
+#     """
+#     Function to define the features and target of the model
 
-    Arguments:
-        - df: dataframe containing the data
-    """
+#     Arguments:
+#         - df: dataframe containing the data
+#     """
 
-    target = df.drop(columns=df.columns[1:])
-    features = df.drop(columns=['Power_Total'])
+#     target = df.drop(columns=df.columns[1:])
+#     features = df.drop(columns=['Power_Total'])
     
-    features_train, features_temp, target_train, target_temp = train_test_split(features, target, test_size=0.25, random_state=42)
-    features_val, features_test, target_val, target_test = train_test_split(features_temp, target_temp, test_size=0.5, random_state=42)
+#     features_train, features_temp, target_train, target_temp = train_test_split(features, target, test_size=0.25, random_state=42)
+#     features_val, features_test, target_val, target_test = train_test_split(features_temp, target_temp, test_size=0.5, random_state=42)
 
-    return features_train, target_train, features_val, target_val
+#     return features_train, target_train, features_val, target_val
 
 
-def define_model(df):
-    """
-    Function to define the model
+# def define_model(df):
+#     """
+#     Function to define the model
 
-    Arguments:
-        - df: dataframe containing the data
-    """
+#     Arguments:
+#         - df: dataframe containing the data
+#     """
 
-    # Initialize W&B
-    #wandb.init(project="solar-panels-prediction", entity="alixia-birtles")
+#     # Initialize W&B
+#     #wandb.init(project="solar-panels-prediction", entity="alixia-birtles")
 
-    # Define hyperparameters to track
-    # config = wandb.config
-    # config.max_depth = 74
-    # config.max_features = 'log2'
-    # config.min_samples_split = 6
-    # config.n_estimators = 242
+#     # Define hyperparameters to track
+#     # config = wandb.config
+#     # config.max_depth = 74
+#     # config.max_features = 'log2'
+#     # config.min_samples_split = 6
+#     # config.n_estimators = 242
 
-    # Define the model
+#     # Define the model
 
-    rf = RandomForestRegressor(bootstrap=False,
-                                 max_depth=74,
-                                 max_features='log2',
-                                 min_samples_split=6,
-                                 n_estimators=242)
-    # rf = RandomForestRegressor(bootstrap=False, 
-    #                            max_depth=config.max_depth, 
-    #                            max_features=config.max_features,
-    #                            min_samples_split=config.min_samples_split, 
-    #                            n_estimators=config.n_estimators)
-    # Define the features and target
-    features_train, target_train, features_val, target_val = define_features_target(df)
+#     rf = RandomForestRegressor(bootstrap=False,
+#                                  max_depth=74,
+#                                  max_features='log2',
+#                                  min_samples_split=6,
+#                                  n_estimators=242)
+#     # rf = RandomForestRegressor(bootstrap=False, 
+#     #                            max_depth=config.max_depth, 
+#     #                            max_features=config.max_features,
+#     #                            min_samples_split=config.min_samples_split, 
+#     #                            n_estimators=config.n_estimators)
+#     # Define the features and target
+#     features_train, target_train, features_val, target_val = define_features_target(df)
     
-    # Fit the model
-    rf.fit(features_train, target_train)
+#     # Fit the model
+#     rf.fit(features_train, target_train)
 
-    # Evaluate the model
-    target_pred_train = rf.predict(features_train)
-    target_pred_val = rf.predict(features_val)
+#     # Evaluate the model
+#     target_pred_train = rf.predict(features_train)
+#     target_pred_val = rf.predict(features_val)
 
-    # Log the metrics
-    # wandb.log({"Train MSE": mean_squared_error(target_train, target_pred_train)})
-    # wandb.log({"Validation MSE": mean_squared_error(target_val, target_pred_val)})
-    # wandb.log({"Train MAE": mean_absolute_error(target_train, target_pred_train)})
-    # wandb.log({"Validation MAE": mean_absolute_error(target_val, target_pred_val)})
+#     # Log the metrics
+#     # wandb.log({"Train MSE": mean_squared_error(target_train, target_pred_train)})
+#     # wandb.log({"Validation MSE": mean_squared_error(target_val, target_pred_val)})
+#     # wandb.log({"Train MAE": mean_absolute_error(target_train, target_pred_train)})
+#     # wandb.log({"Validation MAE": mean_absolute_error(target_val, target_pred_val)})
 
-    # Save the model
-    folder_name = "savedModels"
-    if not os.path.exists(folder_name):
-        os.makedirs(folder_name)
+#     # Save the model
+#     folder_name = "savedModels"
+#     if not os.path.exists(folder_name):
+#         os.makedirs(folder_name)
 
-    model_path = os.path.join(folder_name, "random_forest_model.pkl")
+#     model_path = os.path.join(folder_name, "random_forest_model.pkl")
 
-    with open(model_path, 'wb') as file:
-        print("Model saved")
-        pickle.dump(rf, file)
+#     with open(model_path, 'wb') as file:
+#         print("Model saved")
+#         pickle.dump(rf, file)
 
 
 def convert_date(row):
@@ -131,58 +131,20 @@ def get_predictions():
     Function to get the predictions of the model
 
     """    
-    
-    current_dir = os.path.dirname(os.path.realpath(__file__))
-    
-
-    """
-    csv_path = os.path.join(current_dir, "../data/no_outliers.csv")
-    df_train = pd.read_csv(csv_path, sep=';', index_col=1)
-
-    df_train = define_data(df_train)
-
-    # Load the model if it exists or create it
-    current_dir = os.path.dirname(os.path.realpath(__file__))
-    check_model = os.path.join(current_dir, "../savedModels/random_forest_model.pkl")
-    if not os.path.exists(check_model):
-        print("Model created")
-        rf = define_model(df_train)
-    
-    with open(check_model, 'rb') as file:
-        rf = pickle.load(file)
-        print("Model loaded")
-
-    """
-    # Get model from cloud : 
-    #"URL : https://storage.googleapis.com/mlsd-project/random_forest_model.pkl"
-    #rf = pd.read_pickle('https://storage.googleapis.com/mlsd-project/random_forest_model.pkl')
-
-
-    # Load the predicted meteorological data of the next 7 days
-    # Download the data
+    # Load the predicted meteorological data of the next 7 days from the cloud
     data = pd.read_csv('https://storage.googleapis.com/mlsd-project/newData_7Days.csv', sep=';')
-    #csv_path = os.path.join(current_dir, "../data/newData_7Days.csv")
-    #data = pd.read_csv(csv_path, sep=';')
-
+    
     # Modify the date in the data so that is human readable 
     date = []
     for _, row in data.iterrows():
         date.append(convert_date(row))
 
-    # Get the predictions for the next 7 days
-    #predictions = rf.predict(data)
-    # Save predictions
-    #current_dir = os.path.dirname(os.path.realpath(__file__))
-    #new_csv_path = os.path.join(current_dir, "../data/predictions.csv")
-    #pd.DataFrame(predictions).to_csv(new_csv_path, sep=';', index=False)
+    # Load the predictions from the cloud that have been computed by the model every day
     predictions = pd.read_csv('https://storage.googleapis.com/mlsd-project/predictions.csv', sep=';', header=0)
     predictions = predictions.squeeze()
 
-
-
     # return what we need in the API
     return predictions, date, data['SWD'], data['SWDtop']
-
 
 
 if __name__ == '__main__':

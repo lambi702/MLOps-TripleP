@@ -3,6 +3,24 @@ import os
 import numpy as np
 import pandas as pd
 
+from google.cloud import storage
+
+
+"""
+    Code from the Lab of the Course "Machine Learning System Design" of the University of Liège
+"""
+def upload_blob(service_account_path, bucket_name, source_file_path, destination_blob_name):
+    """Uploads a file to the specified bucket."""
+    storage_client = storage.Client.from_service_account_json(service_account_path)
+    bucket = storage_client.bucket(bucket_name)
+    blob = bucket.blob(destination_blob_name)
+
+    blob.upload_from_filename(source_file_path)
+
+    print(f"File {source_file_path} uploaded to {destination_blob_name}.")
+
+
+
 
 def define_new_data(df):
     """
@@ -102,6 +120,7 @@ def get_7days_data(df):
     Arguments:
         - df: dataframe containing the data
     """
+    df_new = df.copy()
     
     # get the date of today   
     today = datetime.now()
@@ -147,11 +166,18 @@ def get_7days_data(df):
     #print(newData_7Days.head())
     newData_7Days = newData_7Days.drop(columns=['Power_Total'])
 
-    # Save the new data
+    # Save the new data locally
     current_dir = os.path.dirname(os.path.realpath(__file__))
-    new_csv_path = os.path.join(current_dir, "../api/data/newData_7Days.csv")
+    new_csv_path = os.path.join(current_dir, "data/newData_7Days.csv")
     newData_7Days.to_csv(new_csv_path, sep=';', index=False)
-    #print(f"New data saved to {new_csv_path}")
+    
+    # Push on the cloud
+    service_account_path = os.path.join(current_dir, 'level-lyceum-400516-877e79f06a39.json')
+    bucket_name = 'mlsd-project'
+    source_file_path = os.path.join(current_dir, "data/newData_7Days.csv")
+    destination_blob_name = 'newData_7Days.csv'
+    upload_blob(service_account_path, bucket_name, source_file_path, destination_blob_name)
+
 
 
 
@@ -177,12 +203,9 @@ def get_training_data(df):
 
     # Save the new data
     current_dir = os.path.dirname(os.path.realpath(__file__))
-    new_csv_path = os.path.join(current_dir, "../api/data/newData_forTrain.csv")
+    new_csv_path = os.path.join(current_dir, "data/newData_forTrain.csv")
     new_training_data.to_csv(new_csv_path, sep=';', index=False)
-    #print(f"New data saved to {new_csv_path}")
-
-    
-    
+        
 
 
 
