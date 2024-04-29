@@ -5,7 +5,8 @@ on:
     - cron: '11 15 * * *' # Every dayat 1 am
   push:
     branches:
-      - feature/api
+      - develop
+      - feature/*
 
 jobs:
   update_data_model:
