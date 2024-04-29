@@ -2,7 +2,7 @@ name: Daily Update
 
 on:
   schedule:
-    - cron: '46 15 * * *' # Every dayat 1 am
+    - cron: '0 1 * * *' # Every dayat 1 am
   push:
     branches:
       - develop
