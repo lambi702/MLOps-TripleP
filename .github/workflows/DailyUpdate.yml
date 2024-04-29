@@ -2,7 +2,7 @@ name: Daily Update
 
 on:
   schedule:
-    - cron: '24 15 * * *' # Every dayat 1 am
+    - cron: '29 15 * * *' # Every dayat 1 am
   push:
     branches:
       - develop
@@ -14,10 +14,10 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v2.4.3
       
     - name: Setup Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v2.4.3
       with:
         python-version: 3.12.2
 
@@ -25,7 +25,7 @@ jobs:
       run: pip install -r api/requirements.txt 
 
     - name: Copy files
-      run: cp api/src/define_api_data.py api/src/updateTrain.py
+      run: cp api/define_api_data.py api/updateTrain.py
     
     - name: DEbug message
       run: echo "Workflow triggered successfullyon branch ${{ github.ref }}"
