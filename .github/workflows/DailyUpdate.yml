@@ -1,0 +1,36 @@
+name: Daily Update
+
+on:
+  schedule:
+    - cron: '0 1 * * *' # Every dayat 1 am
+  push:
+    branches:
+      - develop
+      - feature/*
+
+jobs:
+  update_data_model:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      
+    - name: Setup Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.12.2
+
+    - name: Install dependencies
+      run: pip install -r api/requirements.txt 
+
+    - name: Copy files
+      run: cp api/define_api_data.py api/updateTrain.py api/data/
+    
+    - name: DEbug message
+      run: echo "Workflow triggered successfullyon branch ${{ github.ref }}"
+
+    - name: Run Python Script
+      run: python api/updateTrain.py
+
+    
