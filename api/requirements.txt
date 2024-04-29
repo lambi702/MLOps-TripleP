@@ -4,3 +4,4 @@ pandas
 plotly
 scikit-learn
 gunicorn
+google-cloud-storage
