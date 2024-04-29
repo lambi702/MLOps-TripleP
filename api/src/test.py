@@ -31,7 +31,6 @@ fig = px.line(df, x='days', y='predictions', labels={'days':'Date', 'predictions
 fig2 = px.line(df, x='days', y='SWD', labels={'days':'Date', 'SWD':'Horizontal Irradiance (W/m²)'}, color_discrete_sequence=['#1b67a1'])
 fig3 = px.line(df, x='days', y='SWDtop',  labels={'days':'Date', 'SWDtop':'Irradiance top atmosphere (W/m²)'})
 
-
 fig2.add_shape(
         type="line",
         x0=today,
