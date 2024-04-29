@@ -7,15 +7,15 @@ WORKDIR /api
 # Copy the current directory contents into the container at /app
 COPY src/test.py ./src/
 COPY src/getPredictions.py ./src/
-COPY data/  ./data
-COPY savedModels/ ./savedModels
+#COPY data/  ./data
+#COPY savedModels/ ./savedModels
 COPY requirements.txt .
 
 # Install any needed packages specified in requirements.txt
-RUN pip install -r requirements.txt
+RUN pip install -r requirements_Docker.txt
 
 
 # Define environment variable to tell the container where the app is (i.e. the file to run)
-ENV FLASK_APP=test.py
+ENV DASH_APP=test.py
 
 CMD ["gunicorn", "-b", "0.0.0.0:5000", "src.test:server"]
