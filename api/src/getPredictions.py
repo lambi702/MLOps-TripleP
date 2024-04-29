@@ -155,7 +155,7 @@ def get_predictions():
     """
     # Get model from cloud : 
     #"URL : https://storage.googleapis.com/mlsd-project/random_forest_model.pkl"
-    rf = pd.read_pickle('https://storage.googleapis.com/mlsd-project/random_forest_model.pkl')
+    #rf = pd.read_pickle('https://storage.googleapis.com/mlsd-project/random_forest_model.pkl')
 
 
     # Load the predicted meteorological data of the next 7 days
@@ -170,13 +170,14 @@ def get_predictions():
         date.append(convert_date(row))
 
     # Get the predictions for the next 7 days
-    predictions = rf.predict(data)
+    #predictions = rf.predict(data)
     # Save predictions
-    current_dir = os.path.dirname(os.path.realpath(__file__))
-    new_csv_path = os.path.join(current_dir, "../data/predictions.csv")
-    pd.DataFrame(predictions).to_csv(new_csv_path, sep=';', index=False)
-    
-    
+    #current_dir = os.path.dirname(os.path.realpath(__file__))
+    #new_csv_path = os.path.join(current_dir, "../data/predictions.csv")
+    #pd.DataFrame(predictions).to_csv(new_csv_path, sep=';', index=False)
+    predictions = pd.read_csv('https://storage.googleapis.com/mlsd-project/predictions.csv', sep=';', header=0)
+    predictions = predictions.squeeze()
+
 
 
     # return what we need in the API
