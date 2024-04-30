@@ -2,7 +2,7 @@ name: Daily Update Model
 
 on:
   schedule:
-    - cron: '25 11 * * *' # Every dayat 1 am
+    - cron: '28 9 * * *' # Every dayat 1 am
     
 jobs:
   update_data_model:
