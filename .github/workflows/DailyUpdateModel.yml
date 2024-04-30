@@ -3,6 +3,9 @@ name: Daily Update Model
 on:
   schedule:
     - cron: '*/5 * * * *' # Every dayat 1 am
+  push:
+     branches:
+       - main
 
 jobs:
   update_data_model:
