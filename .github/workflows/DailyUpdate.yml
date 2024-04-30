@@ -11,6 +11,8 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
+      with:
+        ref: feature/api
       
     - name: Setup Python
       uses: actions/setup-python@v2
