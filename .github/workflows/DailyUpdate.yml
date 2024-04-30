@@ -3,10 +3,6 @@ name: Daily Update
 on:
   schedule:
     - cron: '0 10 * * *' # Every dayat 1 am
-  push:
-    branches:
-      - develop
-      - feature/*
 
 jobs:
   update_data_model:
