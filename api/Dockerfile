@@ -12,10 +12,12 @@ COPY src/getPredictions.py ./src/
 COPY requirements.txt .
 
 # Install any needed packages specified in requirements.txt
-RUN pip install -r requirements_Docker.txt
+RUN pip install -r requirements.txt
 
 
 # Define environment variable to tell the container where the app is (i.e. the file to run)
 ENV DASH_APP=test.py
+ENV PORT 8080
 
-CMD ["gunicorn", "-b", "0.0.0.0:5000", "src.test:server"]
+#CMD ["gunicorn", "-b", "0.0.0.0:5000", "src.test:server"]
+CMD exec gunicorn --bind :$PORT src.test:server

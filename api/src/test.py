@@ -31,15 +31,6 @@ fig = px.line(df, x='days', y='predictions', labels={'days':'Date', 'predictions
 fig2 = px.line(df, x='days', y='SWD', labels={'days':'Date', 'SWD':'Horizontal Irradiance (W/m²)'}, color_discrete_sequence=['#1b67a1'])
 fig3 = px.line(df, x='days', y='SWDtop',  labels={'days':'Date', 'SWDtop':'Irradiance top atmosphere (W/m²)'})
 
-fig2.add_shape(
-        type="line",
-        x0=today,
-        y0=0,
-        x1=today,
-        y1=df['SWD'].max(),
-        line=dict(color="red", width=1, dash="dash")
-    )
-fig2.add_trace(go.Scatter(x=[None], y=[None], mode='lines', line=dict(color='red', width=1, dash="dash"), name='Current Date'))
 fig2.update_layout(
         plot_bgcolor='white',
         xaxis=dict(
@@ -119,6 +110,7 @@ app.layout = html.Div([
 def update_graph(selected_days):
 
     # Define the date of today at 1h am
+    today = datetime.now()
     today_1h = datetime(today.year, today.month, today.day, 1, 0)
     data_to_display = df[df['days'] <= today_1h + pd.Timedelta(days=selected_days)]
 
