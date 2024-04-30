@@ -2,11 +2,8 @@ name: Daily Update Model
 
 on:
   schedule:
-    - cron: '*/5 * * * *' # Every dayat 1 am
-  push:
-     branches:
-       - main
-
+    - cron: '25 11 * * *' # Every dayat 1 am
+    
 jobs:
   update_data_model:
     runs-on: ubuntu-latest
