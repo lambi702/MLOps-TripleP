@@ -15,7 +15,7 @@ The goal of this project is to learn how to utilize corretly the tools that are 
 | Data Modelling                  | [Models](data-modelling/MODELS.md)    |
 
 ## Repository Tree
-```python
+```
 MLOps-TripleP # Tree of the repository structure
 ├── data
 │
