@@ -52,6 +52,43 @@ The output layer features two neurons, representing the mean (mu) and log varian
 
 The second neural network exhibits a loss oscillating between 1.8 and 2, while the first network generally fluctuates between 1.8 and 1.9, with one notable exception.
 
+Moreover, we leveraged the use of [Weight and Biases](https://wandb.ai/) to track the loss easily and automatically, as well as plotting the loss at running time, making the debugging of the net easier.
+
+In order to do that, we followed thoses steps :
+
+- First, we have to initialize the run and specify the project in which the run will be stored as well as the user account which wandb has to use.
+```python
+wandb.init(project="mlopstriplep", entity="g-delporte")
+```
+
+- Then, we have to configure the run hyperparameters as well as telling wandb to watch the gradients of the net and the loss functiion, to be able to see for any vanishing gradient.
+```python
+wandb.config = { # Setting models hyperparams
+"learning_rate": lr,
+"epochs": nb_epoch,
+"batch_size": 4,
+}
+
+wandb.watch(net, criterion, log="all", log_freq=10) # Launching gradients watchdog
+
+```
+
+- Then, we have to log, at each epoch, the loss for this epoch, so wandb can update the loss graph automatically for us. We can do this using the log command of wandb
+```python
+    wandb.log({ # Logging the current params
+        "epoch": epoch,
+        "train_loss": losses[-1], # last loss avaiable
+    })
+```
+- Last but not least, we need to finish the run when we are done.
+```python
+    wandb.finish() # Close the ongoing run
+```
+This is what it looks like during the run:
+
+We can see the gradients as well as the loss plotting just right in front of our eyes.
+![image](nn/wandb.png)
+
 ## 3. Randomized Search to Optimize Hyperparameters of the Random Forest Model
 
 We have employed a randomized search to optimize the hyperparameters of the Random Forest model.
