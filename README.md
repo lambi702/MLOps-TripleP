@@ -14,6 +14,7 @@ The goal of this project is to learn how to utilize corretly the tools that are 
 | Exploratory Data Analysis (EDA) | [EDA](data-exploration/EDA.md)        |
 | Data Modelling                  | [Models](data-modelling/MODELS.md)    |
 
+
 ## Repository Tree
 ```
 MLOps-TripleP # Tree of the repository structure

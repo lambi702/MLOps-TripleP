@@ -1,0 +1,53 @@
+{
+    "os": "Windows-11-10.0.22631-SP0",
+    "python": "3.12.2",
+    "heartbeatAt": "2024-04-08T15:21:48.675711",
+    "startedAt": "2024-04-08T15:21:47.124156",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "c:\\Users\\ambir\\OneDrive - Universite de Liege\\M2\\Q2\\MLOPS\\MLOps-TripleP\\api\\getPredictions.py",
+    "codePathLocal": "api\\getPredictions.py",
+    "codePath": "api\\getPredictions.py",
+    "git": {
+        "remote": "https://github.com/lambi702/MLOps-TripleP.git",
+        "commit": "46f6780c49d7ab244dc0c9f4b17e241b4b0335a5"
+    },
+    "email": "73172824+alixiabirtles@users.noreply.github.com",
+    "root": "C:/Users/ambir/OneDrive - Universite de Liege/M2/Q2/MLOPS/MLOps-TripleP",
+    "host": "Khaleesi",
+    "username": "ambir",
+    "executable": "C:\\Users\\ambir\\anaconda3\\envs\\labMLOPS\\python.exe",
+    "cpu_count": 4,
+    "cpu_count_logical": 8,
+    "cpu_freq": {
+        "current": 2400.0,
+        "min": 0.0,
+        "max": 2400.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 2400.0,
+            "min": 0.0,
+            "max": 2400.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 456.19335556030273,
+            "used": 389.47126388549805
+        }
+    },
+    "gpu": "NVIDIA GeForce GTX 1050",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "NVIDIA GeForce GTX 1050",
+            "memory_total": 3221225472
+        }
+    ],
+    "memory": {
+        "total": 7.848445892333984
+    }
+}
