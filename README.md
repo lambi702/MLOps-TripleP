@@ -13,6 +13,7 @@ The goal of this project is to learn how to utilize corretly the tools that are 
 | Handwritten Work                | [PDF's](pdf/PDF.md)                   |
 | Exploratory Data Analysis (EDA) | [EDA](data-exploration/EDA.md)        |
 | Data Modelling                  | [Models](data-modelling/MODELS.md)    |
+| Modified Data for Prediction    | [Data Pred](api/datat/FUTUREDATAT.md) |
 
 
 ## Repository Tree
