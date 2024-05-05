@@ -2,7 +2,8 @@
 
 ## Overview
 
-Welcome to MLOps-TripleP, a Python-based project designed to predict solar panel production over university parking areas. This innovative project leverages machine learning models and real-time weather data to provide accurate forecasts, aiding in the optimization of energy consumption and enhancing sustainability efforts. By contributing to MLOps-TripleP, you're participating in a movement towards more informed decision-making in energy management.
+Welcome to MLOps-TripleP, a Python-based project designed to predict solar panel production over university parking areas. This innovative project leverages machine learning models and real-time weather data to provide accurate forecasts, aiding in the optimization of energy consumption and enhancing sustainability efforts. **The ML pipeline incorporates data processing, model training, prediction, and automated updates via GitHub Actions to ensure the model's accuracy with daily data refreshes.** By contributing to MLOps-TripleP, you're participating in a movement towards more informed decision-making in energy management.
+
 
 ## Features
 This project is made for Spring 2024 MLOps Lecture. 
@@ -12,6 +13,7 @@ This project is made for Spring 2024 MLOps Lecture.
 |---------------------------------|---------------------------------------|
 | Exploratory Data Analysis (EDA) | [EDA](data-exploration/EDA.md) |
 | API Data | [API data](data/FUTUREDATA.md) |
+| ML Pipeline | [ML Pipeline](api/ml_pipeline.md) |
 
 
 ## Team
