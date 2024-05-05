@@ -1,31 +1,41 @@
-# ML Pipeline Overview
+# Complete ML Pipeline Overview
+
+## Project Introduction
+This document provides a detailed overview of the ML pipeline for the MLOps-TripleP project, which predicts solar panel production over university parking areas. Our setup includes data processing, model training, prediction, containerization with Docker, orchestration with Docker Compose, and automated updates using GitHub Actions.
 
 ## Data Processing
-The ML pipeline begins with data processing, handled by `define_api_data.py`. This script defines functions to clean and convert raw data into a format suitable for modeling. It includes:
-- Renaming columns and converting date-time information.
-- Calculating statistical metrics like mean and standard deviation to normalize the data.
+The ML pipeline starts with data processing implemented in `define_api_data.py`. This script includes functions to clean and reformat the raw data for modeling. Key processes include:
+- Renaming columns for clarity.
+- Converting timestamps into a more usable format.
+- Normalizing data based on computed statistical metrics like mean and standard deviation.
 
 ## Model Training
-The model training process involves:
-- Defining features and targets from the processed data.
-- Using a Random Forest algorithm to train the model with training data.
-- Evaluating model performance on validation data.
+Model training involves:
+- Defining features and target variables from the processed data.
+- Training a Random Forest model using the training dataset.
+- Evaluating the model on validation data to ensure its effectiveness.
 
 ## Prediction
-Once the model is trained, the prediction process is executed, which involves:
-- Fetching new data from a predefined source.
-- Using the trained model to make predictions on this new data.
-- Storing predictions in CSV format and potentially uploading them to a cloud storage.
+Following training, the model is used for predictions:
+- New data is fetched from specified sources.
+- The trained model predicts based on this new data.
+- Predictions are stored in a CSV file and can be uploaded to cloud storage for further use.
 
-## Containerization
-The application is containerized using Docker, as outlined in the `Dockerfile`. This includes:
-- Setting up a Python environment.
-- Installing necessary libraries.
-- Defining the execution command for the application.
+## Containerization with Docker
+The application is containerized using a Dockerfile which ensures the Python environment is prepared with all dependencies:
+- Building an image from `python:3.9-slim`.
+- Setting up the necessary directory structure.
+- Installing required packages from `requirements.txt`.
+- Running the application using Gunicorn as a WSGI server.
 
-## Update Training
-The `updateTrain.py` script updates the training data and recalculates predictions as needed. This is part of maintaining the model's accuracy over time.
-
----
-
-For further details on contributing to this project or inquiries, refer to the contact section in the main `README.md`.
+## Orchestration with Docker Compose
+The Docker Compose configuration automates the deployment of the web service:
+```yaml
+version: '3'
+services:
+  web:
+    image: appmlsd
+    ports:
+      - "8080:8080"
+    environment:
+      - DASH_APP=test.py
