@@ -2,7 +2,7 @@ name: Daily Update Model
 
 on:
   schedule:
-    - cron: '25 8 * * *' # Every dayat 1 am (23h00 UTC)
+    - cron: '30 0 * * *' # Every dayat 2.30 am (00h30 UTC)
     
 jobs:
   update_data_model:
@@ -29,6 +29,6 @@ jobs:
       run: echo "Workflow triggered successfullyon branch ${{ github.ref }}"
 
     - name: Run Python Script
-      run: TZ=Europe/Paris python api/updateTrain.py
+      run: python api/updateTrain.py
 
     
