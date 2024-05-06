@@ -29,6 +29,6 @@ jobs:
       run: echo "Workflow triggered successfullyon branch ${{ github.ref }}"
 
     - name: Run Python Script
-      run: python api/updateTrain.py
+      run: TZ=Europe/Paris python api/updateTrain.py
 
     
