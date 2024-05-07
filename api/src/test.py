@@ -4,6 +4,7 @@ from dash import Dash, html, dcc, callback, Input, Output
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objs as go
+import pytz
 
 import sys
 sys.path.append('/api/src')
@@ -17,7 +18,8 @@ server = app.server
 # call the model to get the predictions
 pred, date, swd, swdtop = get_predictions()
 
-today = datetime.now()
+timezone = pytz.timezone('Europe/Paris')
+today = datetime.now(timezone)
 # data
 df = pd.DataFrame({
     'predictions': pred,
@@ -27,11 +29,27 @@ df = pd.DataFrame({
 })
 
 # Define the figures that are displayed in the app as dashboards
-fig = px.line(df, x='days', y='predictions', labels={'days':'Date', 'predictions':'Predicted electricity generation (W)'})
-fig2 = px.line(df, x='days', y='SWD', labels={'days':'Date', 'SWD':'Horizontal Irradiance (W/m²)'}, color_discrete_sequence=['#1b67a1'])
-fig3 = px.line(df, x='days', y='SWDtop',  labels={'days':'Date', 'SWDtop':'Irradiance top atmosphere (W/m²)'})
+fig = px.line(df, x='days', y='predictions',
+               labels={'days':'Date', 'predictions':'Predicted electricity generation (W)'})
+fig2 = px.line(df, x='days', y='SWD',
+                labels={'days':'Date', 'SWD':'Horizontal Irradiance (W/m²)'},
+                  color_discrete_sequence=['#1b67a1'])
+fig3 = px.line(df, x='days', y='SWDtop', 
+               labels={'days':'Date', 'SWDtop':'Irradiance top atmosphere (W/m²)'},
+               color_discrete_sequence=['#1b67a1'])
 
 fig2.update_layout(
+        plot_bgcolor='white',
+        xaxis=dict(
+            gridcolor='rgba(0, 0, 0, 0.1)',  
+            linecolor='rgba(0, 0, 0, 0.5)'   
+        ),
+        yaxis=dict(
+            gridcolor='rgba(0, 0, 0, 0.1)',  
+            linecolor='rgba(0, 0, 0, 0.5)'   
+        )
+    )
+fig3.update_layout(
         plot_bgcolor='white',
         xaxis=dict(
             gridcolor='rgba(0, 0, 0, 0.1)',  
@@ -110,7 +128,8 @@ app.layout = html.Div([
 def update_graph(selected_days):
 
     # Define the date of today at 1h am
-    today = datetime.now()
+    timezone = pytz.timezone('Europe/Paris')
+    today = datetime.now(timezone)
     today_1h = datetime(today.year, today.month, today.day, 1, 0)
     data_to_display = df[df['days'] <= today_1h + pd.Timedelta(days=selected_days)]
 
