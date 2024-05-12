@@ -12,39 +12,34 @@ The goal of this project is to learn how to utilize corretly the tools that are 
 | Subject                         | Link                                  |
 |---------------------------------|---------------------------------------|
 | Exploratory Data Analysis (EDA) | [EDA](data-exploration/EDA.md) |
-| API Data | [API data](api/data/FUTUREDATA.md) |
-| ML Pipeline | [ML Pipeline](api/ml_pipeline.md) |
+| Modelling & Weight and Biases | [Modeling](data-modelling/MODELS.md) |
+| The API Data | [API data](api/data/FUTUREDATA.md) |
+| The ML Pipeline | [ML Pipeline](api/MLPIPELINE.md) |
 | Application | [APP](api/APP.md)|
-| Action | [Action](api/Action.md)|
+| Action | [Action](api/ACTION.md)|
 
 
 
 ## Repository Tree
 ```
 MLOps-TripleP # Tree of the repository structure
-├── data
+├── api # API Source files
+│   ├── data
+│   └── src
 │
-├── data-exploration # EDA Files
-│   ├── DataAnalysis.ipynb
-│   ├── data_loading.py
+├── data # CSV Folder
+│
+├── data-exploration # Exploratory data analysis source files
 │   ├── eda.ipynb
 │   └── EDA.md
-├── data-modelling # Torch and SKlearn Modelling
-│   ├── MODELS.md
-│   ├── nn
-│   │   ├── nn.ipynb
-│   │   └── wandb.png
+│
+├── data-modelling # Modelling source files
+│   ├── nn 
+│   │   └── wandb # wandb run files
 │   └── sklearn
-│       ├── rand_gs_cv.ipynb
-│       └── sklearn.ipynb
-├── pdf # All of the avaiable handwritten notes
-│   ├── canvas.png
-│   ├── Machine_Learning_Canvas.pdf
-│   ├── Milestone_01_Presentation.pdf
-│   ├── ml_canvas.pdf
-│   ├── MLOps_Project_Card.pdf
-│   ├── PDF.md
-│   └── project_description.pdf
+│
+├── pdf # Pdf available in regards to the project
+│
 └── README.md # You are here
 
 ```

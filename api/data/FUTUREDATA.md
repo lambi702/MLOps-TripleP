@@ -1,11 +1,11 @@
-# Prediction Methodology Using Modified Data and Future Forecast ?
+# Prediction Methodology Using Modified Data and Future Forecast
 
 The data used to train the models were data collected during the year 2022 
 and come from the meteorological institute of the University of Liège. 
 The data are collected every 15 minutes and are used to predict the
 production of electricity from solar panels.
 
-We managed to get access to future data from the meteorological institute of the University, but without success. 
+We tried to get access to future data from the meteorological institute of the University, but without success. 
 Therefore, we were not able to predict in real life the production of electricity from solar panels in the API in order to build a 'real-time' prediction model.
 
 That is why we decided to use the modified data from the year 2022 to predict the production of electricity from solar panels. 
@@ -17,11 +17,11 @@ Indeed, these following bounds do apply to the data:
     - 'CM' : [0, 1]
     - 'CU' : [0, 1]
     - 'RH2m' : [0, 100]
-    - 'SNOW' : [0, ∞[
-    - 'SWD' : [0, ∞[
-    - 'SWDtop' : [0, ∞[
-    - 'WS100m' : [0, ∞[
-    - 'WS10m' : [0, ∞[
+    - 'SNOW' : [0, +∞[
+    - 'SWD' : [0, +∞[
+    - 'SWDtop' : [0, +∞[
+    - 'WS100m' : [0, +∞[
+    - 'WS10m' : [0, +∞[
 
 
 ### Deal with the future data
