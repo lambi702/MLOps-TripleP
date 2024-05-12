@@ -17,6 +17,7 @@ The goal of this project is to learn how to utilize corretly the tools that are 
 | The ML Pipeline | [ML Pipeline](api/MLPIPELINE.md) |
 | Application | [APP](api/APP.md)|
 | Action | [Action](api/ACTION.md)|
+| Linting with `pylint`| [Linting](linting/LINTING.md) |
 
 
 
