@@ -39,7 +39,11 @@ MLOps-TripleP # Tree of the repository structure
 │   │   └── wandb # wandb run files
 │   └── sklearn
 │
+├── linting # Information about the linting process
+│
 ├── pdf # Pdf available in regards to the project
+│
+├── wandb # Weights and Biases automatically generated files
 │
 └── README.md # You are here
 
