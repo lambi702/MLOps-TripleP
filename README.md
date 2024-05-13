@@ -11,6 +11,7 @@ This project is made for Spring 2024 MLOps Lecture.
 The goal of this project is to learn how to utilize corretly the tools that are typically used in the industry. Every part of the project that we were asked to make is (and will) be compiled in the following table.
 | Subject                         | Link                                  |
 |---------------------------------|---------------------------------------|
+| Handwritten work           | [PDF](pdf/PDF.md) |
 | Exploratory Data Analysis (EDA) | [EDA](data-exploration/EDA.md) |
 | Modelling & Weight and Biases | [Modeling](data-modelling/MODELS.md) |
 | The API Data | [API data](api/data/FUTUREDATA.md) |
