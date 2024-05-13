@@ -11,12 +11,14 @@ This project is made for Spring 2024 MLOps Lecture.
 The goal of this project is to learn how to utilize corretly the tools that are typically used in the industry. Every part of the project that we were asked to make is (and will) be compiled in the following table.
 | Subject                         | Link                                  |
 |---------------------------------|---------------------------------------|
+| Handwritten Work                | [PDFs](pdf/PDF.md) |
 | Exploratory Data Analysis (EDA) | [EDA](data-exploration/EDA.md) |
 | Modelling & Weight and Biases | [Modeling](data-modelling/MODELS.md) |
 | The API Data | [API data](api/data/FUTUREDATA.md) |
 | The ML Pipeline | [ML Pipeline](api/MLPIPELINE.md) |
 | Application | [APP](api/APP.md)|
 | Action | [Action](api/ACTION.md)|
+| Linting with `pylint`| [Linting](linting/LINTING.md) |
 
 
 
@@ -24,21 +26,25 @@ The goal of this project is to learn how to utilize corretly the tools that are 
 ```
 MLOps-TripleP # Tree of the repository structure
 ├── api # API Source files
-│   ├── data
-│   └── src
+│   ├── data
+│   └── src
 │
 ├── data # CSV Folder
 │
 ├── data-exploration # Exploratory data analysis source files
-│   ├── eda.ipynb
-│   └── EDA.md
+│   ├── eda.ipynb
+│   └── EDA.md
 │
 ├── data-modelling # Modelling source files
-│   ├── nn 
-│   │   └── wandb # wandb run files
-│   └── sklearn
+│   ├── nn 
+│   │   └── wandb # wandb run files
+│   └── sklearn
+│
+├── linting # Information about the linting process
 │
 ├── pdf # Pdf available in regards to the project
+│
+├── wandb # Weights and Biases automatically generated files
 │
 └── README.md # You are here
 
