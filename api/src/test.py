@@ -1,19 +1,16 @@
-"""
-    test.py: Module to test the API
-"""
-
-import sys
 from datetime import datetime
+
 # from flask import Flask, render_template, request, jsonify
-from dash import Dash, html, dcc, Input, Output
+from dash import Dash, html, dcc, callback, Input, Output
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objs as go
 import pytz
 
-from getPredictions import get_predictions
+import sys
 
 sys.path.append("/api/src")
+from getPredictions import get_predictions
 
 
 app = Dash(__name__)
@@ -52,13 +49,13 @@ fig3 = px.line(
 
 fig2.update_layout(
     plot_bgcolor="white",
-    xaxis={"gridcolor": "rgba(0, 0, 0, 0.1)", "linecolor": "rgba(0, 0, 0, 0.5)"},
-    yaxis={"gridcolor": "rgba(0, 0, 0, 0.1)", "linecolor": "rgba(0, 0, 0, 0.5)"},
+    xaxis=dict(gridcolor="rgba(0, 0, 0, 0.1)", linecolor="rgba(0, 0, 0, 0.5)"),
+    yaxis=dict(gridcolor="rgba(0, 0, 0, 0.1)", linecolor="rgba(0, 0, 0, 0.5)"),
 )
 fig3.update_layout(
     plot_bgcolor="white",
-    xaxis={"gridcolor": "rgba(0, 0, 0, 0.1)", "linecolor": "rgba(0, 0, 0, 0.5)"},
-    yaxis={"gridcolor": "rgba(0, 0, 0, 0.1)", "linecolor": "rgba(0, 0, 0, 0.5)"},
+    xaxis=dict(gridcolor="rgba(0, 0, 0, 0.1)", linecolor="rgba(0, 0, 0, 0.5)"),
+    yaxis=dict(gridcolor="rgba(0, 0, 0, 0.1)", linecolor="rgba(0, 0, 0, 0.5)"),
 )
 
 fig.add_shape(
@@ -67,14 +64,14 @@ fig.add_shape(
     y0=0,
     x1=today,
     y1=df["predictions"].max(),
-    line={"color": "red", "width": 1, "dash": "dash"},
+    line=dict(color="red", width=1, dash="dash"),
 )
 
 # Define the layout of the app
 app.layout = html.Div(
     [
         html.H1(
-            children="Prediction of Parking Area Solar Panel Electricity Generation at ULiège",
+            children="Prediction of Parking Area Solar Panel Electricity Generation at the University of Liège",
             style={"textAlign": "center", "color": "#1b67a1"},
         ),
         html.Div(
@@ -87,12 +84,7 @@ app.layout = html.Div(
         # Add some explanations about the project
         html.H2("Project description:"),
         html.P(
-            "This project aims to predict the electricity generation of the solar panels located \
-                in the parking area of the University of Liège. The predictions are based on \
-                meteorological data such as temperature, humidity and solar irradiance. The \
-                data is collected from the meteorological station of the university and is used \
-                to train a machine learning model. The model is then used to predict the \
-                electricity generation of the solar panels for the next days."
+            "This project aims to predict the electricity generation of the solar panels located in the parking area of the University of Liège. The predictions are based on meteorological data such as temperature, humidity and solar irradiance. The data is collected from the meteorological station of the university and is used to train a machine learning model. The model is then used to predict the electricity generation of the solar panels for the next days."
         ),
         # graph of the predictions of the solar panels
         html.H2(
@@ -127,23 +119,14 @@ app.layout = html.Div(
 
 # Function to update the graph of the predictions
 def update_graph(selected_days):
-    """
-    This function updates the graph of the predictions based on the selected
-    
-    Parameters:
-        selected_days: The days to display in the graph
-
-    Returns:
-        fig_update: The updated figure of the predictions
-    """
 
     # Define the date of today at 1h am
-    timezone_update = pytz.timezone("Europe/Paris")
-    today_update = datetime.now(timezone_update)
-    today_1h = datetime(today_update.year, today_update.month, today_update.day, 1, 0)
+    timezone = pytz.timezone("Europe/Paris")
+    today = datetime.now(timezone)
+    today_1h = datetime(today.year, today.month, today.day, 1, 0)
     data_to_display = df[df["days"] <= today_1h + pd.Timedelta(days=selected_days)]
 
-    fig_update = px.line(
+    fig = px.line(
         data_to_display,
         x="days",
         y="predictions",
@@ -152,33 +135,32 @@ def update_graph(selected_days):
     )
 
     # Add vertical line for current date
-    fig_update.add_shape(
+    fig.add_shape(
         type="line",
-        x0=today_update,
+        x0=today,
         y0=data_to_display["predictions"].min(),
-        x1=today_update,
+        x1=today,
         y1=data_to_display["predictions"].max(),
-        line={"color": "red", "width": 1, "dash": "dash"},
+        line=dict(color="red", width=1, dash="dash"),
     )
 
     # Add legend for the vertical line
-    fig_update.add_trace(
+    fig.add_trace(
         go.Scatter(
             x=[None],
             y=[None],
             mode="lines",
-            line={"color": "red", "width": 1, "dash": "dash"},
+            line=dict(color="red", width=1, dash="dash"),
             name="Current Date",
         )
     )
-
-    fig_update.update_layout(
+    fig.update_layout(
         plot_bgcolor="white",
-        xaxis={"gridcolor": "rgba(0, 0, 0, 0.1)", "linecolor": "rgba(0, 0, 0, 0.5)"},
-        yaxis={"gridcolor": "rgba(0, 0, 0, 0.1)", "linecolor": "rgba(0, 0, 0, 0.5)"},
+        xaxis=dict(gridcolor="rgba(0, 0, 0, 0.1)", linecolor="rgba(0, 0, 0, 0.5)"),
+        yaxis=dict(gridcolor="rgba(0, 0, 0, 0.1)", linecolor="rgba(0, 0, 0, 0.5)"),
     )
 
-    return fig_update
+    return fig
 
 
 if __name__ == "__main__":

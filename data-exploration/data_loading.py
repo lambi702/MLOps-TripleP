@@ -1,25 +1,13 @@
-"""
-data_loading.py, used to load and process solar and weather data from CSV files. 
-It defines a function `load_data` that reads the data, localizes timestamps to CEST, 
-and returns a sorted DataFrame.
-"""
-
-import os
 import pandas as pd
-import pytz
+import os, pytz
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.covariance import MinCovDet
 
 
 def load_data(solar_file_path, weather_file_path):
-    """
-    Function to load the data from the csv files
 
-    Arguments:
-        - solar_file_path: path to the solar data csv file
-        - weather_file_path: path to the weather data csv files
-
-    Returns:
-        - cleaned_df: cleaned dataframe
-    """
     # Define CEST as UTC+2 with pytz
     cest = pytz.FixedOffset(120)
 
@@ -61,8 +49,7 @@ def load_data(solar_file_path, weather_file_path):
         # add the dataframe to the list
         weather_list.append(df_buf)
 
-    # Concatenate the dataframes in the list File 20220524 is empty,
-    # hence the length of the list is 33.600 and not 33.696
+    # Concatenate the dataframes in the list File 20220524 is empty, hence the length of the list is 33.600 and not 33.696
     weather_df = pd.concat(weather_list, join="outer").sort_index()
 
     # Merge the two dataframes

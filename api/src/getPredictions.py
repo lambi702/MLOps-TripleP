@@ -1,7 +1,3 @@
-"""
-    getPredictions.py: Module to get the predictions of the model
-"""
-
 from datetime import datetime
 import pandas as pd
 
@@ -35,18 +31,18 @@ def get_predictions():
     )
 
     # Modify the date in the data so that is human readable
-    date_pred = []
+    date = []
     for _, row in data.iterrows():
-        date_pred.append(convert_date(row))
+        date.append(convert_date(row))
 
     # Load the predictions from the cloud that have been computed by the model every day
-    predictions_pred = pd.read_csv(
+    predictions = pd.read_csv(
         "https://storage.googleapis.com/mlsd-project/predictions.csv", sep=";", header=0
     )
-    predictions_pred = predictions_pred.squeeze()
+    predictions = predictions.squeeze()
 
     # return what we need in the API
-    return predictions_pred, date_pred, data["SWD"], data["SWDtop"]
+    return predictions, date, data["SWD"], data["SWDtop"]
 
 
 if __name__ == "__main__":

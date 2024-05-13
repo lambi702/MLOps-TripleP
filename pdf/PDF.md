@@ -11,4 +11,5 @@ This document serves as a directory for the available PDFs in this repository. E
 | [`Machine_Learning_Canvas`](Machine_Learning_Canvas.pdf) | A canvas that helps to understand the problem, solution to solve it, and the impact of the solution. |
 | [`Milestone_01_Presentation`](Milestone_01_Presentation.pdf) | Presentation for the first milestone of the project. |
 | [`ml_canvas`](ml_canvas.pdf) | Pdf of the OWNML Canvas |
-| [`Milestone_02_Presentation`](Milestone_02_Presentation.pdf) | Presentation for the second and last milestone of the project. |
+| ...                                                  | ...                                                         |
+

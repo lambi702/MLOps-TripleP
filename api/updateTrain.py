@@ -1,38 +1,41 @@
+from datetime import datetime, timedelta
+import os
+import numpy as np
+import pandas as pd
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import train_test_split
+
+from define_api_data import *
+
+
 """
-    updateTrain.py : This code is executed every day to update the model with the new data.
+    These code is executed every day to update the model with the new data.
     We must first update the data in the csv file to have them up to date.
     Then we can update the model with the new data.
     Once the model is updated, we can make predictions with the new data.
     The predictions and the new data are then saved on the cloud.
 """
 
-import os
-import pandas as pd
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.model_selection import train_test_split
 
-from define_api_data import define_new_data, get_statistics, get_7days_data,\
-      get_training_data, upload_blob
-
-def define_data(d_f):
+def define_data(df):
     """
     Function to define the data and to clean it
 
     Arguments:
-        - d_f: dataframe containing the data
+        - df: dataframe containing the data
     """
 
-    d_f = d_f.rename(columns={"Unnamed: 0": "Timestamp"})
-    d_f["Timestamp"] = pd.to_datetime(d_f["Timestamp"])
+    df = df.rename(columns={"Unnamed: 0": "Timestamp"})
+    df["Timestamp"] = pd.to_datetime(df["Timestamp"])
 
-    d_f["Month"] = d_f["Timestamp"].dt.month
-    d_f["Day"] = d_f["Timestamp"].dt.day
-    d_f["Hour"] = d_f["Timestamp"].dt.hour + d_f["Timestamp"].dt.minute / 60
+    df["Month"] = df["Timestamp"].dt.month
+    df["Day"] = df["Timestamp"].dt.day
+    df["Hour"] = df["Timestamp"].dt.hour + df["Timestamp"].dt.minute / 60
 
-    d_f = d_f.drop(columns=d_f.columns[:9])
-    d_f = d_f.drop(columns=d_f.columns[1:10])
+    df = df.drop(columns=df.columns[:9])
+    df = df.drop(columns=df.columns[1:10])
 
-    return d_f
+    return df
 
 
 def get_data():
@@ -41,15 +44,15 @@ def get_data():
 
     """
     # Get access to the training data: no_outliers.csv
-    d_f_train_get = pd.read_csv(
+    df_train = pd.read_csv(
         "https://storage.googleapis.com/mlsd-project/no_outliers.csv",
         sep=";",
         index_col=1,
     )
 
     # New data
-    d_f_new = define_new_data(d_f_train_get)
-    data = get_statistics(d_f_new)
+    df_new = define_new_data(df_train)
+    data = get_statistics(df_new)
 
     # Save the next 7 days data:
     get_7days_data(data)
@@ -58,64 +61,64 @@ def get_data():
     get_training_data(data)
 
     # Dataframe of the training data
-    d_f_train_get = define_data(d_f_train_get)
+    df_train = define_data(df_train)
 
-    return d_f_train_get
+    return df_train
 
 
-def define_training_data(d_f_train_old):
+def define_training_data(df_train_old):
     """
     Function to define the training data
 
     Arguments:
-        - d_f_train_old: dataframe containing the training data
+        - df_train_old: dataframe containing the training data
     """
 
     # Get the data for training
-    get_training_data(d_f_train_old)
+    get_training_data(df_train_old)
 
     # Load the new data for training
     current_dir = os.path.dirname(os.path.realpath(__file__))
     csv_path = os.path.join(current_dir, "data/newData_forTrain.csv")
-    d_f_train_new = pd.read_csv(csv_path, sep=";", index_col=1)
+    df_train = pd.read_csv(csv_path, sep=";", index_col=1)
 
     # Concatenate the two dataframes
-    d_f_train_new = pd.concat([d_f_train_old, d_f_train_new])
+    df_train = pd.concat([df_train_old, df_train])
 
-    return d_f_train_new
+    return df_train
 
 
-def define_features_target(d_f):
+def define_features_target(df):
     """
     Function to define the features and target of the model
 
     Arguments:
-        - d_f: dataframe containing the data
+        - df: dataframe containing the data
     """
 
-    target = d_f.drop(columns=d_f.columns[1:])
-    features = d_f.drop(columns=["Power_Total"])
+    target = df.drop(columns=df.columns[1:])
+    features = df.drop(columns=["Power_Total"])
 
     features_train, features_temp, target_train, target_temp = train_test_split(
         features, target, test_size=0.25, random_state=42
     )
-    features_val, _, target_val, _ = train_test_split(
+    features_val, features_test, target_val, target_test = train_test_split(
         features_temp, target_temp, test_size=0.5, random_state=42
     )
 
     return features_train, target_train, features_val, target_val
 
 
-def define_model(d_f):
+def define_model(df):
     """
     Function to define the model
 
     Arguments:
-        - d_f: dataframe containing the data
+        - df: dataframe containing the data
     """
 
     # Define the model
-    r_f = RandomForestRegressor(
+    rf = RandomForestRegressor(
         bootstrap=False,
         max_depth=74,
         max_features="log2",
@@ -124,28 +127,22 @@ def define_model(d_f):
     )
 
     # Define the features and target
-    features_train, target_train, _, _ = define_features_target(d_f)
+    features_train, target_train, features_val, target_val = define_features_target(df)
 
     # Fit the model
-    r_f.fit(features_train, target_train)
+    rf.fit(features_train, target_train)
 
     # Evaluate the model
-    #target_pred_train = r_f.predict(features_train)
-    #target_pred_val = r_f.predict(features_val)
+    target_pred_train = rf.predict(features_train)
+    target_pred_val = rf.predict(features_val)
 
-    return r_f
+    return rf
 
 
-def get_predictions(d_f):
-    """
-    Function to get the predictions with the model computed
-    
-    Arguments:
-        - d_f: dataframe containing the data
-    """
+def get_predictions(df):
 
     # Define the model
-    model = define_model(d_f)
+    model = define_model(df)
 
     # Data to predict
     data = pd.read_csv(
@@ -172,8 +169,8 @@ def get_predictions(d_f):
 
 if __name__ == "__main__":
 
-    d_f_train = get_data()
+    df_train = get_data()
 
-    new_d_f_train = define_training_data(d_f_train)
+    new_df_train = define_training_data(df_train)
 
-    get_predictions(new_d_f_train)
+    get_predictions(new_df_train)
