@@ -34,9 +34,3 @@ This script manages the interaction with cloud storage and updates to the model:
 
 The integration of local and cloud storage in the MLOps-TripleP project's ML pipeline offers a balanced approach to data management. By keeping training data local for security and performance, and using cloud storage for predictions, the project optimizes both data handling and computational efficiency.
 
----
-
-## Test of Vertex AI to create a pipeline
-
-For this project, we tried to use Vertex AI to create a pipeline but this was not a succeesful attempt due to the complexity of the documentation and the lack of examples online due to the novelty of the tool. In addition, we were building in parallel the previously explained pipeline and it worked well so we decided to stick with it.
-
