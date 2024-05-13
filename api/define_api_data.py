@@ -182,7 +182,7 @@ def get_7days_data(d_f):
 
     # Save the new data locally
     current_dir_7 = os.path.dirname(os.path.realpath(__file__))
-    new_csv_path_7 = os.path.join(current_dir_7, "data/new_data_7_days.csv")
+    new_csv_path_7 = os.path.join(current_dir_7, "data/newData_7Days.csv")
     new_data_7_days.to_csv(new_csv_path_7, sep=";", index=False)
 
     # Push on the cloud
@@ -190,8 +190,8 @@ def get_7days_data(d_f):
         current_dir_7, "level-lyceum-400516-877e79f06a39.json"
     )
     bucket_name = "mlsd-project"
-    source_file_path = os.path.join(current_dir_7, "data/new_data_7_days.csv")
-    destination_blob_name = "new_data_7_days.csv"
+    source_file_path = os.path.join(current_dir_7, "data/newData_7Days.csv")
+    destination_blob_name = "newData_7Days.csv"
     upload_blob(
         service_account_path, bucket_name, source_file_path, destination_blob_name
     )
